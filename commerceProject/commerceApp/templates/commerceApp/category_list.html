@@ -1,0 +1,44 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Kategoriler{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">Kategoriler</h1>
+        <p class="page-subtitle">Tüm kategorilerimizi keşfedin</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="category-grid">
+        {% for category in categories %}
+        <div class="category-card">
+            <div class="category-image-wrapper">
+                {% if category.image %}
+                <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                {% else %}
+                <img src="{% static 'images/no-category-image.png' %}" alt="No Image" class="category-image">
+                {% endif %}
+                <div class="category-overlay">
+                    <h3 class="category-title">{{ category.name }}</h3>
+                    <p class="category-count">{{ category.products.count }} Ürün</p>
+                    <a href="{% url 'commerceApp:product_list_by_category' category.slug %}" class="btn btn-light">
+                        Ürünleri Gör
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="empty-categories">
+                <i class="fas fa-boxes fa-4x text-muted mb-3"></i>
+                <h3>Henüz kategori bulunmamaktadır</h3>
+                <p class="text-muted">Yakında yeni kategoriler eklenecektir.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

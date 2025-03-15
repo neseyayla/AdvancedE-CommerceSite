@@ -1,0 +1,148 @@
+{% extends 'navbar.html' %}
+
+{% block base %}
+
+  
+<!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+    <style>
+      .background-radial-gradient {
+        background-color: hsl(218, 41%, 15%);
+        background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+          radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
+      }
+  
+      #radius-shape-1 {
+        height: 220px;
+        width: 220px;
+        top: -60px;
+        left: -130px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      }
+  
+      #radius-shape-2 {
+        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+        bottom: -60px;
+        right: -110px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      }
+  
+      .bg-glass {
+        background-color: hsla(0, 0%, 100%, 0.9) !important;
+        backdrop-filter: saturate(200%) blur(25px);
+      }
+    </style>
+  
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+            <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+                The best offer <br />
+                <span style="color: hsl(218, 81%, 75%)">for your business</span>
+            </h1>
+            <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+            <div class="card bg-glass">
+                <div class="card-body px-4 py-5 px-md-5">
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <!-- User Form (Username, Email, Password) -->
+                        {{ user_form.as_p }}
+                    
+                        <!-- Customer Form (Name, Lastname, Telephone) -->
+                        {{ customer_form.as_p }}
+                    
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    
+<!--                <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col-md-6">
+                              <div class="mb-3">
+                                  {{ signupForm.name.label_tag }}
+                                  {{ signupForm.name }}
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="mb-3">
+                                  {{ signupForm.lastname.label_tag }}
+                                  {{ signupForm.lastname }}
+                              </div>
+                          </div>
+                      </div>
+                        <div class="mb-3">
+                            {{ signupForm.email.label_tag }}
+                            {{ signupForm.email }}
+                        </div>
+                        <div class="mb-3">
+                            {{ signupForm.password.label_tag }}
+                            {{ signupForm.password }}
+                        </div>
+                        <div class="mb-3">
+                            {{ signupForm.telephone.label_tag }}
+                            {{ signupForm.telephone }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            Sign Up
+                        </button>
+                    </form>-->  
+                    
+                    {% if signupForm.errors %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for field, errors in signupForm.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ field }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="text-center">
+                        <p>or sign up with:</p>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  </section>
+  <!-- Section: Design Block -->
+
+{% endblock %}

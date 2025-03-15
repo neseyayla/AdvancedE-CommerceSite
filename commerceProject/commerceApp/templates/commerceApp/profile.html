@@ -1,0 +1,262 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Profilim{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<style>
+    .profile-card {
+        background: linear-gradient(135deg, #FFB347 0%, #FFCC33 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: 4px solid rgba(255, 255, 255, 0.4);
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-avatar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+        z-index: 1;
+    }
+
+    .profile-shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+
+    .profile-shape-1 {
+        top: -20px;
+        right: -20px;
+        width: 200px;
+        height: 200px;
+    }
+
+    .profile-shape-2 {
+        bottom: -40px;
+        left: -40px;
+        width: 240px;
+        height: 240px;
+        transform: rotate(45deg);
+    }
+
+    .profile-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-title {
+        color: #333;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .info-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .info-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+        color: #333;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .social-links {
+        margin-top: 1.5rem;
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .social-links a:hover {
+        transform: translateY(-3px);
+    }
+
+    .edit-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        padding: 0.5rem 2rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+
+    .edit-button:hover {
+        background: white;
+        color: #FFB347;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sol Taraf - Profil Kartı -->
+        <div class="col-lg-4 mb-4">
+            <div class="profile-card">
+                <div class="profile-shape profile-shape-1"></div>
+                <div class="profile-shape profile-shape-2"></div>
+                
+                <div class="text-center">
+                    {% if customer.image %}
+                    <img src="{{ customer.image.url }}" alt="{{ customer.name }}" class="profile-image">
+                    {% else %}
+                    <div class="profile-avatar">
+                        {{ customer.name|slice:":1" }}{{ customer.lastname|slice:":1" }}
+                    </div>
+                    {% endif %}
+                    
+                    <h1 class="profile-title">{{ customer.name }} {{ customer.lastname }}</h1>
+                    <p class="profile-subtitle">{{ user.email }}</p>
+                    
+                    <a href="{% url 'commerceApp:edit_profile' %}" class="btn edit-button">
+                        <i class="fas fa-edit me-2"></i>Profili Düzenle
+                    </a>
+
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Taraf - Bilgi Kartları -->
+        <div class="col-lg-8">
+            <div class="row">
+                <!-- İletişim Bilgileri -->
+                <div class="col-md-6 mb-4">
+                    <div class="info-card">
+                        <h3 class="info-title">
+                            <i class="fas fa-address-card me-2 text-primary"></i>
+                            İletişim Bilgileri
+                        </h3>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Telefon</div>
+                            <div class="info-value">{{ customer.telephone|default:"Belirtilmemiş" }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">E-posta</div>
+                            <div class="info-value">{{ user.email }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Adres</div>
+                            <div class="info-value">{{ customer.address|default:"Belirtilmemiş" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Konum Bilgileri -->
+                <div class="col-md-6 mb-4">
+                    <div class="info-card">
+                        <h3 class="info-title">
+                            <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                            Konum Bilgileri
+                        </h3>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Şehir</div>
+                            <div class="info-value">{{ customer.city|default:"Belirtilmemiş" }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Ülke</div>
+                            <div class="info-value">{{ customer.country|default:"Belirtilmemiş" }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">Posta Kodu</div>
+                            <div class="info-value">{{ customer.postal_code|default:"Belirtilmemiş" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Son Siparişler -->
+                <div class="col-12">
+                    <div class="info-card">
+                        <h3 class="info-title">
+                            <i class="fas fa-shopping-bag me-2 text-primary"></i>
+                            Son Siparişler
+                        </h3>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Sipariş No</th>
+                                        <th>Tarih</th>
+                                        <th>Tutar</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-center">Henüz sipariş bulunmamaktadır.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

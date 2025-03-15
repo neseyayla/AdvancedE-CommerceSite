@@ -1,0 +1,221 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+        color: white;
+        padding: 100px 0;
+        margin-top: -1.5rem;
+        margin-bottom: 3rem;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .hero-content {
+        text-align: center;
+    }
+    
+    .feature-card {
+        border: none;
+        transition: transform 0.3s ease;
+        background: #f8f9fa;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #4F46E5;
+        margin-bottom: 1rem;
+    }
+    
+    .product-card {
+        border: none;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .category-section {
+        background-color: #f8f9fa;
+        padding: 4rem 0;
+        margin: 3rem 0;
+    }
+    
+    .btn-primary {
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        background-color: #4F46E5;
+        border-color: #4F46E5;
+    }
+    
+    .btn-primary:hover {
+        background-color: #4338CA;
+        border-color: #4338CA;
+    }
+    
+    .section-title {
+        position: relative;
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        color: #2D3748;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #4F46E5;
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 60px 0;
+            min-height: 400px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 hero-content">
+                <h1 class="display-4 fw-bold mb-4">Alışverişin En Keyifli Hali</h1>
+                <p class="lead mb-4">En kaliteli ürünler, en uygun fiyatlarla sizlerle. Üstelik kargo bedava!</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="{% url 'commerceApp:product_list' %}" class="btn btn-light btn-lg">Alışverişe Başla</a>
+                    <a href="{% url 'commerceApp:category_list' %}" class="btn btn-outline-light btn-lg">Kategorileri Keşfet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container mb-5">
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="feature-card card h-100 p-4">
+                <div class="text-center">
+                    <i class="fas fa-truck feature-icon"></i>
+                    <h5 class="card-title">Ücretsiz Kargo</h5>
+                    <p class="card-text">150 TL ve üzeri alışverişlerde kargo ücretsiz!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-card card h-100 p-4">
+                <div class="text-center">
+                    <i class="fas fa-undo feature-icon"></i>
+                    <h5 class="card-title">Kolay İade</h5>
+                    <p class="card-text">14 gün içinde ücretsiz iade garantisi</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-card card h-100 p-4">
+                <div class="text-center">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h5 class="card-title">Güvenli Ödeme</h5>
+                    <p class="card-text">256-bit SSL sertifikası ile güvenli alışveriş</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="feature-card card h-100 p-4">
+                <div class="text-center">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h5 class="card-title">7/24 Destek</h5>
+                    <p class="card-text">Müşteri hizmetlerimiz her an yanınızda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="container mb-5">
+    <h2 class="text-center section-title">Öne Çıkan Ürünler</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for product in featured_products %}
+        <div class="col">
+            <div class="product-card card h-100">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="Placeholder" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted">{{ product.description|truncatewords:10 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h5 mb-0">{{ product.price }} TL</span>
+                        <a href="{% url 'commerceApp:product_detail' product.slug %}" class="btn btn-primary">İncele</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="category-section">
+    <div class="container">
+        <h2 class="text-center section-title">Popüler Kategoriler</h2>
+        <div class="row g-4">
+            {% for category in categories|slice:":6" %}
+            <div class="col-md-4">
+                <div class="feature-card card h-100 p-4">
+                    <div class="text-center">
+                        <i class="fas fa-box feature-icon"></i>
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">{{ category.description|truncatewords:10 }}</p>
+                        <a href="{% url 'commerceApp:product_list_by_category' category.slug %}" class="btn btn-primary">Ürünleri Gör</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="section-title">Fırsatları Kaçırma!</h2>
+            <p class="lead mb-4">Özel teklifler ve yeni ürünlerden ilk sen haberdar ol.</p>
+            <form class="row g-3 justify-content-center">
+                <div class="col-auto">
+                    <input type="email" class="form-control form-control-lg" placeholder="E-posta adresiniz">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Abone Ol</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %} 

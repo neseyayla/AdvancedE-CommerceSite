@@ -1,0 +1,89 @@
+{% extends 'commerceApp/base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="page-title">{{ product.name }}</h1>
+            <p class="page-subtitle">{{ product.category.name }} kategorisinde özel seçilmiş ürünlerimizden biri</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Ürün Görseli -->
+        <div class="col-md-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            {% else %}
+            <img src="https://via.placeholder.com/600" class="img-fluid rounded" alt="Placeholder">
+            {% endif %}
+        </div>
+
+        <!-- Ürün Bilgileri -->
+        <div class="col-md-6">
+            <p class="lead">{{ product.description }}</p>
+            
+            <div class="mb-4">
+                <h3 class="text-primary">{{ product.price }} TL</h3>
+            </div>
+
+            <div class="mb-4">
+                <p><strong>Kategori:</strong> {{ product.category.name }}</p>
+                <p><strong>Stok Durumu:</strong> 
+                    {% if product.stock > 0 %}
+                        <span class="text-success">Stokta {{ product.stock }} adet</span>
+                    {% else %}
+                        <span class="text-danger">Stokta Yok</span>
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if product.stock > 0 %}
+            <form method="post" action="{% url 'commerceApp:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Miktar</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Sepete Ekle</button>
+            </form>
+            {% else %}
+            <button class="btn btn-secondary btn-lg" disabled>Stokta Yok</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- İlgili Ürünler -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">İlgili Ürünler</h2>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for related_product in product.category.products.all|slice:":4" %}
+                    {% if related_product.id != product.id %}
+                    <div class="col">
+                        <div class="card h-100">
+                            {% if related_product.image %}
+                            <img src="{{ related_product.image.url }}" class="card-img-top" alt="{{ related_product.name }}">
+                            {% else %}
+                            <img src="https://via.placeholder.com/300" class="card-img-top" alt="Placeholder">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related_product.name }}</h5>
+                                <p class="card-text">{{ related_product.price }} TL</p>
+                                <a href="{% url 'commerceApp:product_detail' related_product.slug %}" class="btn btn-primary">İncele</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

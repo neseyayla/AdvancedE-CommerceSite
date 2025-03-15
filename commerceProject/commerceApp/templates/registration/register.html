@@ -1,0 +1,131 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Kayıt Ol{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+    /* Hide footer on registration page */
+    .footer {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="background-radial-gradient">
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start">
+        <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                <h1 class="my-5 display-5 fw-bold ls-tight auth-title">
+                    Hoş Geldiniz <br />
+                    <span class="auth-subtitle">E-Ticaret Dünyasına</span>
+                </h1>
+                <p class="mb-4 auth-text">
+                    Hesabınızı oluşturarak özel tekliflerden, indirimlerden ve daha fazlasından yararlanın. 
+                    Güvenli alışverişin keyfini çıkarın!
+                </p>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                <div class="auth-shape-1"></div>
+                <div class="auth-shape-2"></div>
+
+                <div class="card bg-glass">
+                    <div class="card-body px-4 py-5 px-md-5">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Name and Lastname inputs -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="text" name="name" class="form-control" required id="id_name" />
+                                        <label class="form-label" for="id_name">Ad</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input type="text" name="lastname" class="form-control" required id="id_lastname" />
+                                        <label class="form-label" for="id_lastname">Soyad</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Username input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" name="username" class="form-control" required id="id_username" />
+                                <label class="form-label" for="id_username">Kullanıcı Adı</label>
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" name="email" class="form-control" required id="id_email" />
+                                <label class="form-label" for="id_email">E-posta Adresi</label>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" name="password1" class="form-control" required id="id_password1" />
+                                <label class="form-label" for="id_password1">Şifre</label>
+                            </div>
+
+                            <!-- Confirm Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" name="password2" class="form-control" required id="id_password2" />
+                                <label class="form-label" for="id_password2">Şifre (Tekrar)</label>
+                            </div>
+
+                            <!-- Newsletter checkbox -->
+                            <div class="form-check d-flex justify-content-start mb-4">
+                                <input class="form-check-input me-2" type="checkbox" name="newsletter" id="newsletter" />
+                                <label class="form-check-label" for="newsletter">
+                                    Kampanya ve fırsatlardan haberdar olmak istiyorum
+                                </label>
+                            </div>
+
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Kayıt Ol
+                            </button>
+
+                            <!-- Register buttons -->
+                            <div class="text-center">
+                                <p>veya şununla kayıt ol:</p>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-github"></i>
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <p>Zaten hesabınız var mı? <a href="{% url 'commerceApp:login' %}" class="text-primary">Giriş Yap</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

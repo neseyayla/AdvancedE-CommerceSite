@@ -1,0 +1,100 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Giriş Yap{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+    /* Hide footer on login page */
+    .footer {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="background-radial-gradient">
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start">
+        <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                <h1 class="my-5 display-5 fw-bold ls-tight auth-title">
+                    Tekrar Hoş Geldiniz <br />
+                    <span class="auth-subtitle">Sizi Özledik</span>
+                </h1>
+                <p class="mb-4 auth-text">
+                    Hesabınıza giriş yaparak kişiselleştirilmiş deneyiminize devam edin.
+                    Size özel fırsatları kaçırmayın!
+                </p>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                <div class="auth-shape-1"></div>
+                <div class="auth-shape-2"></div>
+
+                <div class="card bg-glass">
+                    <div class="card-body px-4 py-5 px-md-5">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Username input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" name="username" class="form-control" required id="id_username" />
+                                <label class="form-label" for="id_username">Kullanıcı Adı</label>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" name="password" class="form-control" required id="id_password" />
+                                <label class="form-label" for="id_password">Şifre</label>
+                            </div>
+
+                            <!-- Remember me checkbox -->
+                            <div class="form-check d-flex justify-content-start mb-4">
+                                <input class="form-check-input me-2" type="checkbox" name="remember_me" id="remember_me" />
+                                <label class="form-check-label" for="remember_me">
+                                    Beni Hatırla
+                                </label>
+                            </div>
+
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <p>Kullanıcı adı veya şifre hatalı.</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Giriş Yap
+                            </button>
+
+                            <!-- Register buttons -->
+                            <div class="text-center">
+                                <p>veya şununla giriş yap:</p>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary social-auth-btn mx-1">
+                                    <i class="fab fa-github"></i>
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <p>Hesabınız yok mu? <a href="{% url 'commerceApp:register' %}" class="text-primary">Kayıt Ol</a></p>
+                                <p><a href="#" class="text-primary">Şifremi Unuttum</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

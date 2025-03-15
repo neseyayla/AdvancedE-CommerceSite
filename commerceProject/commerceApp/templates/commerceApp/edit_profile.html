@@ -1,0 +1,165 @@
+{% extends 'commerceApp/base.html' %}
+{% load static %}
+
+{% block title %}Profili Düzenle{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<style>
+    /* Hide footer on edit profile page */
+    .footer {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="background-radial-gradient">
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start">
+        <div class="row gx-lg-5 align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                <h1 class="my-5 display-5 fw-bold ls-tight auth-title">
+                    Profil Bilgileriniz <br />
+                    <span class="auth-subtitle">Güncel Kalsın</span>
+                </h1>
+                <p class="mb-4 auth-text">
+                    Profil bilgilerinizi güncel tutarak size özel fırsatlardan ve kampanyalardan haberdar olun.
+                    Güncel bilgileriniz, siparişlerinizin doğru adrese ulaşmasını sağlar.
+                </p>
+            </div>
+
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+                <div class="auth-shape-1"></div>
+                <div class="auth-shape-2"></div>
+
+                <div class="card bg-glass">
+                    <div class="card-body px-4 py-5 px-md-5">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- User Information -->
+                            <h4 class="mb-4 text-primary">Hesap Bilgileri</h4>
+                            
+                            <!-- Username input -->
+                            <div class="form-outline mb-4">
+                                {{ user_form.username }}
+                                <label class="form-label" for="{{ user_form.username.id_for_label }}">Kullanıcı Adı</label>
+                                {% if user_form.username.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ user_form.username.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                {{ user_form.email }}
+                                <label class="form-label" for="{{ user_form.email.id_for_label }}">E-posta Adresi</label>
+                                {% if user_form.email.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ user_form.email.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Personal Information -->
+                            <h4 class="mb-4 mt-5 text-primary">Kişisel Bilgiler</h4>
+
+                            <!-- Name and Lastname inputs -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ customer_form.name }}
+                                        <label class="form-label" for="{{ customer_form.name.id_for_label }}">Ad</label>
+                                        {% if customer_form.name.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ customer_form.name.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ customer_form.lastname }}
+                                        <label class="form-label" for="{{ customer_form.lastname.id_for_label }}">Soyad</label>
+                                        {% if customer_form.lastname.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ customer_form.lastname.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phone input -->
+                            <div class="form-outline mb-4">
+                                {{ customer_form.telephone }}
+                                <label class="form-label" for="{{ customer_form.telephone.id_for_label }}">Telefon</label>
+                                {% if customer_form.telephone.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ customer_form.telephone.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Address input -->
+                            <div class="form-outline mb-4">
+                                {{ customer_form.address }}
+                                <label class="form-label" for="{{ customer_form.address.id_for_label }}">Adres</label>
+                                {% if customer_form.address.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ customer_form.address.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- City and Country inputs -->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ customer_form.city }}
+                                        <label class="form-label" for="{{ customer_form.city.id_for_label }}">Şehir</label>
+                                        {% if customer_form.city.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ customer_form.city.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        {{ customer_form.country }}
+                                        <label class="form-label" for="{{ customer_form.country.id_for_label }}">Ülke</label>
+                                        {% if customer_form.country.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ customer_form.country.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Postal Code input -->
+                            <div class="form-outline mb-4">
+                                {{ customer_form.postal_code }}
+                                <label class="form-label" for="{{ customer_form.postal_code.id_for_label }}">Posta Kodu</label>
+                                {% if customer_form.postal_code.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ customer_form.postal_code.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Değişiklikleri Kaydet</button>
+                                <a href="{% url 'commerceApp:profile' %}" class="btn btn-outline-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 
